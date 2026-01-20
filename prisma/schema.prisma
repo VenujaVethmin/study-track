@@ -12,3 +12,90 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+
+
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  subjects      Subject[]
+  studySessions StudySession[]
+  tasks         Task[]
+}
+
+model Subject {
+  id            String         @id @default(cuid())
+  name          String
+  color         String         @default("#3b82f6")
+  icon          String?
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topics        Topic[]
+  studySessions StudySession[]
+  tasks         Task[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([userId])
+}
+
+model Topic {
+  id          String   @id @default(cuid())
+  name        String
+  progress    Float    @default(0)
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([subjectId])
+}
+
+model StudySession {
+  id        String   @id @default(cuid())
+  date      DateTime @default(now())
+  duration  Int      // in minutes
+  notes     String?
+  subjectId String
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([subjectId])
+  @@index([date])
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  completed   Boolean  @default(false)
+  dueDate     DateTime?
+  priority    String   @default("medium") // low, medium, high
+  subjectId   String?
+  subject     Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([subjectId])
+}
+
+model Streak {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  currentStreak Int     @default(0)
+  longestStreak Int     @default(0)
+  lastStudyDate DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
