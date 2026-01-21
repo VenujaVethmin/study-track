@@ -1,190 +1,297 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Brain, BookOpen, Target, Flame, Clock, TrendingUp, Plus, Calendar } from "lucide-react";
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function Dashboard() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".stat-card", {
-        opacity: 0,
-        y: 30,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: "power2.out",
-      });
-
-      gsap.from(".quick-action", {
-        opacity: 0,
-        scale: 0.95,
-        duration: 0.5,
-        stagger: 0.1,
-        delay: 0.3,
-      });
-
-      gsap.from(".activity-item", {
-        opacity: 0,
-        x: -20,
-        duration: 0.4,
-        stagger: 0.1,
-        delay: 0.6,
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const stats = {
-    currentStreak: 7,
-    weeklyHours: 12.5,
-    completedTopics: 23,
-    activeSubjects: 5,
-  };
-
   return (
-    <div ref={containerRef} className="min-h-screen bg-black text-white">
-      <div className="fixed inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20 pointer-events-none" />
-      
-      <div className="relative container mx-auto px-4 py-8">
-        {/* Header */}
+    <div className="min-h-screen bg-slate-50">
+      {/* Header */}
+      <header className="border-b border-slate-200 bg-white sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold">S</span>
+            </div>
+            <span className="text-xl font-bold text-slate-900">StudyTracker</span>
+          </Link>
+          
+          <nav className="flex items-center gap-2">
+            <Link
+              href="/dashboard"
+              className="px-4 py-2 bg-blue-50 text-blue-600 rounded-lg font-medium"
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/tasks"
+              className="px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-lg font-medium transition-colors"
+            >
+              Tasks
+            </Link>
+            <Link
+              href="/analytics"
+              className="px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-lg font-medium transition-colors"
+            >
+              Analytics
+            </Link>
+          </nav>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Welcome Section */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
-            <Calendar className="w-4 h-4" />
-            <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-2">
-            <span className="bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
-              Welcome back 👋
-            </span>
-          </h1>
-          <p className="text-gray-400">Here's your progress overview</p>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Dashboard</h1>
+          <p className="text-slate-600">Track your study progress and stats</p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="stat-card p-6 bg-gradient-to-br from-orange-500/10 to-transparent border border-orange-500/20 rounded-2xl backdrop-blur-sm hover:border-orange-500/40 transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-orange-500/20 rounded-lg">
-                <Flame className="w-6 h-6 text-orange-400" />
-              </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold">{stats.currentStreak}</div>
-                <div className="text-xs text-gray-400">days</div>
-              </div>
+        <div className="grid md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white rounded-xl p-6 border border-slate-200">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-2xl">⏱️</span>
+              <span className="text-3xl font-bold text-blue-600">5h 32m</span>
             </div>
-            <div className="text-sm text-gray-400">Current Streak</div>
-            <div className="mt-2 h-1 bg-orange-500/20 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-orange-500 to-yellow-500 w-3/4"></div>
-            </div>
+            <p className="text-sm font-medium text-slate-600">Total Study Time</p>
+            <p className="text-xs text-slate-500 mt-1">This week</p>
           </div>
 
-          <div className="stat-card p-6 bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/20 rounded-2xl backdrop-blur-sm hover:border-blue-500/40 transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-blue-500/20 rounded-lg">
-                <Clock className="w-6 h-6 text-blue-400" />
-              </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold">{stats.weeklyHours}</div>
-                <div className="text-xs text-gray-400">hours</div>
-              </div>
+          <div className="bg-white rounded-xl p-6 border border-slate-200">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-2xl">📚</span>
+              <span className="text-3xl font-bold text-green-600">12</span>
             </div>
-            <div className="text-sm text-gray-400">This Week</div>
-            <div className="mt-2 text-xs text-blue-400">+2.5h from last week</div>
+            <p className="text-sm font-medium text-slate-600">Study Sessions</p>
+            <p className="text-xs text-slate-500 mt-1">Completed</p>
           </div>
 
-          <div className="stat-card p-6 bg-gradient-to-br from-green-500/10 to-transparent border border-green-500/20 rounded-2xl backdrop-blur-sm hover:border-green-500/40 transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-green-500/20 rounded-lg">
-                <Target className="w-6 h-6 text-green-400" />
-              </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold">{stats.completedTopics}</div>
-                <div className="text-xs text-gray-400">topics</div>
-              </div>
+          <div className="bg-white rounded-xl p-6 border border-slate-200">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-2xl">🎯</span>
+              <span className="text-3xl font-bold text-purple-600">87%</span>
             </div>
-            <div className="text-sm text-gray-400">Completed</div>
-            <div className="mt-2 text-xs text-green-400">This month</div>
+            <p className="text-sm font-medium text-slate-600">Focus Score</p>
+            <p className="text-xs text-slate-500 mt-1">Average</p>
           </div>
 
-          <div className="stat-card p-6 bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-500/20 rounded-2xl backdrop-blur-sm hover:border-purple-500/40 transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-purple-500/20 rounded-lg">
-                <BookOpen className="w-6 h-6 text-purple-400" />
-              </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold">{stats.activeSubjects}</div>
-                <div className="text-xs text-gray-400">subjects</div>
-              </div>
+          <div className="bg-white rounded-xl p-6 border border-slate-200">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-2xl">🔥</span>
+              <span className="text-3xl font-bold text-orange-600">7</span>
             </div>
-            <div className="text-sm text-gray-400">Active</div>
-            <div className="mt-2 text-xs text-purple-400">In progress</div>
+            <p className="text-sm font-medium text-slate-600">Day Streak</p>
+            <p className="text-xs text-slate-500 mt-1">Keep it going!</p>
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid md:grid-cols-3 gap-4 mb-8">
-          <Link href="/subjects" className="quick-action group">
-            <div className="p-6 bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-2xl backdrop-blur-sm hover:border-purple-500/40 transition-all">
-              <Brain className="w-10 h-10 mb-4 text-purple-400 group-hover:scale-110 transition-transform" />
-              <h3 className="text-xl font-semibold mb-2">Subjects</h3>
-              <p className="text-sm text-gray-400 mb-4">Manage your study materials</p>
-              <div className="flex items-center text-sm text-purple-400 font-medium">
-                Open <Plus className="w-4 h-4 ml-1" />
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Timer Section */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-xl p-8 border border-slate-200">
+              <h2 className="text-xl font-semibold text-slate-900 mb-6">Study Timer</h2>
+              
+              {/* Timer Display */}
+              <div className="text-center mb-8">
+                <div className="inline-block bg-slate-900 text-white rounded-2xl px-16 py-12 mb-6">
+                  <div className="text-6xl font-mono font-bold tracking-wider">
+                    00:00:00
+                  </div>
+                </div>
+                
+                <div className="w-full max-w-md mx-auto bg-slate-200 rounded-full h-2 mb-4">
+                  <div className="bg-blue-600 h-2 rounded-full w-0 transition-all"></div>
+                </div>
               </div>
-            </div>
-          </Link>
 
-          <Link href="/planner" className="quick-action group">
-            <div className="p-6 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-2xl backdrop-blur-sm hover:border-blue-500/40 transition-all">
-              <Target className="w-10 h-10 mb-4 text-blue-400 group-hover:scale-110 transition-transform" />
-              <h3 className="text-xl font-semibold mb-2">Planner</h3>
-              <p className="text-sm text-gray-400 mb-4">Schedule study sessions</p>
-              <div className="flex items-center text-sm text-blue-400 font-medium">
-                Plan <Plus className="w-4 h-4 ml-1" />
+              {/* Timer Controls */}
+              <div className="space-y-4 mb-6">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    What are you studying? *
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Mathematics, Physics..."
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Topic (optional)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Calculus, Quantum Mechanics..."
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900"
+                  />
+                </div>
               </div>
-            </div>
-          </Link>
 
-          <Link href="/progress" className="quick-action group">
-            <div className="p-6 bg-gradient-to-br from-pink-500/10 to-rose-500/10 border border-pink-500/20 rounded-2xl backdrop-blur-sm hover:border-pink-500/40 transition-all">
-              <TrendingUp className="w-10 h-10 mb-4 text-pink-400 group-hover:scale-110 transition-transform" />
-              <h3 className="text-xl font-semibold mb-2">Progress</h3>
-              <p className="text-sm text-gray-400 mb-4">View your analytics</p>
-              <div className="flex items-center text-sm text-pink-400 font-medium">
-                Analyze <Plus className="w-4 h-4 ml-1" />
+              <div className="flex gap-3">
+                <button className="flex-1 bg-green-600 text-white px-6 py-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                  Start Session
+                </button>
+                <button className="flex-1 bg-red-600 text-white px-6 py-4 rounded-lg font-semibold hover:bg-red-700 transition-colors opacity-50 cursor-not-allowed" disabled>
+                  Stop & Save
+                </button>
+              </div>
+
+              {/* Timer Settings */}
+              <div className="mt-6 pt-6 border-t border-slate-200">
+                <h3 className="text-sm font-semibold text-slate-900 mb-3">Timer Settings</h3>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-xs text-slate-600 mb-1">Study (min)</label>
+                    <input
+                      type="number"
+                      defaultValue={25}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-600 mb-1">Break (min)</label>
+                    <input
+                      type="number"
+                      defaultValue={5}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-600 mb-1">Focus Check (min)</label>
+                    <input
+                      type="number"
+                      defaultValue={15}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-900"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </Link>
+          </div>
+
+          {/* Today's Activity */}
+          <div className="space-y-6">
+            <div className="bg-white rounded-xl p-6 border border-slate-200">
+              <h2 className="text-lg font-semibold text-slate-900 mb-4">Today's Activity</h2>
+              
+              <div className="space-y-3">
+                <div className="p-3 bg-blue-50 rounded-lg border border-blue-100">
+                  <div className="flex justify-between items-start mb-1">
+                    <span className="font-medium text-slate-900 text-sm">Mathematics</span>
+                    <span className="text-sm font-semibold text-blue-600">45m</span>
+                  </div>
+                  <p className="text-xs text-slate-600">Calculus</p>
+                  <div className="mt-2 flex items-center gap-1">
+                    <span className="text-xs text-green-600 font-medium">92% focus</span>
+                    <span className="text-xs text-slate-400">• 10:30 AM</span>
+                  </div>
+                </div>
+
+                <div className="p-3 bg-green-50 rounded-lg border border-green-100">
+                  <div className="flex justify-between items-start mb-1">
+                    <span className="font-medium text-slate-900 text-sm">Physics</span>
+                    <span className="text-sm font-semibold text-green-600">30m</span>
+                  </div>
+                  <p className="text-xs text-slate-600">Quantum Mechanics</p>
+                  <div className="mt-2 flex items-center gap-1">
+                    <span className="text-xs text-green-600 font-medium">88% focus</span>
+                    <span className="text-xs text-slate-400">• 2:15 PM</span>
+                  </div>
+                </div>
+
+                <div className="p-3 bg-purple-50 rounded-lg border border-purple-100">
+                  <div className="flex justify-between items-start mb-1">
+                    <span className="font-medium text-slate-900 text-sm">Chemistry</span>
+                    <span className="text-sm font-semibold text-purple-600">25m</span>
+                  </div>
+                  <div className="mt-2 flex items-center gap-1">
+                    <span className="text-xs text-green-600 font-medium">95% focus</span>
+                    <span className="text-xs text-slate-400">• 4:00 PM</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-slate-200">
+                <div className="flex justify-between text-sm">
+                  <span className="text-slate-600">Total today:</span>
+                  <span className="font-semibold text-slate-900">1h 40m</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Tasks */}
+            <div className="bg-white rounded-xl p-6 border border-slate-200">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-semibold text-slate-900">Quick Tasks</h2>
+                <Link href="/tasks" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                  View all →
+                </Link>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="flex items-start gap-3 p-2 hover:bg-slate-50 rounded-lg cursor-pointer">
+                  <input type="checkbox" className="mt-1 h-4 w-4 text-blue-600 rounded" />
+                  <span className="text-sm text-slate-700">Finish calculus homework</span>
+                </label>
+                <label className="flex items-start gap-3 p-2 hover:bg-slate-50 rounded-lg cursor-pointer">
+                  <input type="checkbox" className="mt-1 h-4 w-4 text-blue-600 rounded" />
+                  <span className="text-sm text-slate-700">Read chapter 5 Physics</span>
+                </label>
+                <label className="flex items-start gap-3 p-2 hover:bg-slate-50 rounded-lg cursor-pointer">
+                  <input type="checkbox" defaultChecked className="mt-1 h-4 w-4 text-blue-600 rounded" />
+                  <span className="text-sm text-slate-400 line-through">Review notes</span>
+                </label>
+              </div>
+
+              <Link
+                href="/tasks"
+                className="mt-4 block text-center px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+              >
+                Add Task
+              </Link>
+            </div>
+          </div>
         </div>
 
-        {/* Recent Activity */}
-        <div className="p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
-          <h2 className="text-xl font-semibold mb-6">Recent Activity</h2>
-          <div className="space-y-3">
-            <div className="activity-item flex items-center gap-4 p-4 rounded-xl bg-green-500/10 border border-green-500/20">
-              <div className="w-2 h-2 rounded-full bg-green-500"></div>
-              <div className="flex-1">
-                <p className="font-medium">Completed: React Hooks</p>
-                <p className="text-sm text-gray-400">2 hours ago</p>
+        {/* Subject Breakdown */}
+        <div className="mt-6 bg-white rounded-xl p-6 border border-slate-200">
+          <h2 className="text-xl font-semibold text-slate-900 mb-6">Study Time by Subject</h2>
+          
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-medium text-slate-900">Mathematics</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-green-600 font-medium">85% focus</span>
+                  <span className="text-sm text-slate-600">2h 15m</span>
+                </div>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-2">
+                <div className="bg-blue-600 h-2 rounded-full" style={{ width: '45%' }}></div>
               </div>
             </div>
-            <div className="activity-item flex items-center gap-4 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
-              <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-              <div className="flex-1">
-                <p className="font-medium">Studied: Database Design</p>
-                <p className="text-sm text-gray-400">5 hours ago</p>
+
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-medium text-slate-900">Physics</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-green-600 font-medium">90% focus</span>
+                  <span className="text-sm text-slate-600">1h 45m</span>
+                </div>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-2">
+                <div className="bg-green-600 h-2 rounded-full" style={{ width: '35%' }}></div>
               </div>
             </div>
-            <div className="activity-item flex items-center gap-4 p-4 rounded-xl bg-purple-500/10 border border-purple-500/20">
-              <div className="w-2 h-2 rounded-full bg-purple-500"></div>
-              <div className="flex-1">
-                <p className="font-medium">Added: Machine Learning</p>
-                <p className="text-sm text-gray-400">Yesterday</p>
+
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-medium text-slate-900">Chemistry</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-green-600 font-medium">92% focus</span>
+                  <span className="text-sm text-slate-600">1h 32m</span>
+                </div>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-2">
+                <div className="bg-purple-600 h-2 rounded-full" style={{ width: '30%' }}></div>
               </div>
             </div>
           </div>

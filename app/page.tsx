@@ -1,188 +1,217 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Link from "next/link";
-import { BookOpen, Brain, TrendingUp, Zap, Sparkles, ArrowRight } from "lucide-react";
-
-// Register GSAP plugin
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import Link from 'next/link';
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const featuresRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Hero animations
-      gsap.from(".hero-badge", {
-        opacity: 0,
-        y: -20,
-        duration: 0.6,
-        ease: "power2.out",
-      });
-
-      gsap.from(".hero-title", {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        delay: 0.2,
-        ease: "power3.out",
-      });
-
-      gsap.from(".hero-subtitle", {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        delay: 0.4,
-        ease: "power3.out",
-      });
-
-      gsap.from(".hero-cta", {
-        opacity: 0,
-        y: 20,
-        duration: 0.6,
-        delay: 0.6,
-        stagger: 0.1,
-      });
-
-      // Feature cards animation
-      gsap.from(".feature-card", {
-        opacity: 0,
-        y: 50,
-        duration: 0.8,
-        stagger: 0.15,
-        scrollTrigger: {
-          trigger: featuresRef.current,
-          start: "top 75%",
-        },
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden">
-      {/* Animated background gradient */}
-      <div className="fixed inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20 pointer-events-none" />
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-900/30 via-transparent to-transparent pointer-events-none" />
-      
-      {/* Hero Section */}
-      <div ref={heroRef} className="relative container mx-auto px-4 py-20">
-        <div className="flex flex-col items-center justify-center min-h-screen text-center">
-          {/* Badge */}
-          <div className="hero-badge mb-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 backdrop-blur-sm">
-              <Sparkles className="w-4 h-4 text-purple-400" />
-              <span className="text-sm font-medium bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                AI-Powered Study Intelligence
-              </span>
+    <div className="min-h-screen bg-slate-50">
+      {/* Simple Header */}
+      <header className="border-b border-slate-200 bg-white">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold">S</span>
             </div>
+            <span className="text-xl font-bold text-slate-900">StudyTracker</span>
           </div>
-
-          {/* Title */}
-          <h1 className="hero-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
-              Study Smarter,
-            </span>
-            <br />
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-              Achieve More
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="hero-subtitle text-lg md:text-xl text-gray-400 max-w-2xl mb-10 leading-relaxed">
-            Your intelligent companion for academic success. Track progress, maintain streaks, and unlock your full potential.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link 
-              href="/dashboard"
-              className="hero-cta group px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 flex items-center gap-2"
-            >
-              Start Learning
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link 
-              href="/dashboard"
-              className="hero-cta px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl font-semibold text-lg transition-all duration-300 backdrop-blur-sm"
-            >
-              Explore Features
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div ref={featuresRef} className="relative container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-            Everything You Need
-          </h2>
-          <p className="text-gray-400 text-lg">Powerful features designed for modern learners</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Feature 1 */}
-          <div className="feature-card group p-6 bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-500/20 rounded-2xl hover:border-purple-500/40 transition-all duration-300 backdrop-blur-sm">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-              <BookOpen className="w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Smart Organization</h3>
-            <p className="text-gray-400 text-sm">Manage subjects and topics with intelligent progress tracking</p>
-          </div>
-
-          {/* Feature 2 */}
-          <div className="feature-card group p-6 bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/20 rounded-2xl hover:border-blue-500/40 transition-all duration-300 backdrop-blur-sm">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-              <Brain className="w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">AI Planning</h3>
-            <p className="text-gray-400 text-sm">Personalized daily and weekly study schedules</p>
-          </div>
-
-          {/* Feature 3 */}
-          <div className="feature-card group p-6 bg-gradient-to-br from-pink-500/10 to-transparent border border-pink-500/20 rounded-2xl hover:border-pink-500/40 transition-all duration-300 backdrop-blur-sm">
-            <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-              <TrendingUp className="w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Analytics</h3>
-            <p className="text-gray-400 text-sm">Visualize your progress with detailed insights</p>
-          </div>
-
-          {/* Feature 4 */}
-          <div className="feature-card group p-6 bg-gradient-to-br from-orange-500/10 to-transparent border border-orange-500/20 rounded-2xl hover:border-orange-500/40 transition-all duration-300 backdrop-blur-sm">
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-              <Zap className="w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Streak System</h3>
-            <p className="text-gray-400 text-sm">Build momentum with gamified daily streaks</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom CTA */}
-      <div className="relative container mx-auto px-4 py-20 text-center">
-        <div className="max-w-3xl mx-auto p-12 rounded-3xl bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-pink-500/10 border border-white/10 backdrop-blur-sm">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            Ready to transform your studies?
-          </h2>
-          <p className="text-gray-400 mb-8 text-lg">Join thousands of students achieving their goals</p>
-          <Link 
+          <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg shadow-purple-500/30"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
           >
-            Get Started Free
-            <ArrowRight className="w-5 h-5" />
+            Open App
           </Link>
         </div>
-      </div>
+      </header>
+
+      {/* Hero Section - Simple & Casual */}
+      <section className="pt-20 pb-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
+            Track Your Study Time ⏱️
+          </h1>
+          
+          <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
+            A simple tool I built to help track study sessions, stay focused, and see how much time you actually spend studying.
+          </p>
+
+          <Link
+            href="/dashboard"
+            className="inline-block px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold text-lg hover:bg-blue-700 transition-colors shadow-sm"
+          >
+            Try it out →
+          </Link>
+          
+          <p className="mt-4 text-sm text-slate-500">
+            No signup needed • Free to use • Built with Next.js
+          </p>
+        </div>
+      </section>
+
+      {/* What it does - Simple cards */}
+      <section className="py-16 px-4">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
+            What it does
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-xl p-6 border border-slate-200">
+              <div className="text-4xl mb-3">⏰</div>
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">
+                Pomodoro Timer
+              </h3>
+              <p className="text-slate-600">
+                Study for 25 minutes, take a 5-minute break. The classic technique that actually works.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 border border-slate-200">
+              <div className="text-4xl mb-3">🔔</div>
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">
+                Focus Checks
+              </h3>
+              <p className="text-slate-600">
+                Get random alerts asking "are you still focused?" Helps you stay honest about your study time.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 border border-slate-200">
+              <div className="text-4xl mb-3">📊</div>
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">
+                Simple Dashboard
+              </h3>
+              <p className="text-slate-600">
+                See your total study time, which subjects you focus on, and your focus score over time.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 border border-slate-200">
+              <div className="text-4xl mb-3">✓</div>
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">
+                Task List
+              </h3>
+              <p className="text-slate-600">
+                Basic to-do list to keep track of what you need to study. Nothing fancy, just works.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why I built this - Personal touch */}
+      <section className="py-16 px-4 bg-white border-y border-slate-200">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 mb-6 text-center">
+            Why I built this
+          </h2>
+          <div className="prose prose-slate max-w-none">
+            <p className="text-lg text-slate-600 leading-relaxed mb-4">
+              I was frustrated with how I couldn't track my actual study time. I'd sit down to study for 2 hours but constantly get distracted by my phone, YouTube, or just spacing out.
+            </p>
+            <p className="text-lg text-slate-600 leading-relaxed mb-4">
+              So I made this to keep myself accountable. The focus checks are annoying on purpose - they force you to admit when you're not actually studying.
+            </p>
+            <p className="text-lg text-slate-600 leading-relaxed">
+              It's been really helpful for me, so I'm sharing it in case others find it useful too. 🤷‍♂️
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* How to use - Simple steps */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
+            How to use it
+          </h2>
+
+          <div className="space-y-6">
+            <div className="flex gap-4">
+              <div className="flex-shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                1
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-1">
+                  Start a session
+                </h3>
+                <p className="text-slate-600">
+                  Enter what you're studying and hit start. Timer begins.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                2
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-1">
+                  Answer focus checks
+                </h3>
+                <p className="text-slate-600">
+                  Every 15 minutes (you can change this), you'll get an alert. Click if you're focused or not.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                3
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-1">
+                  Check your stats
+                </h3>
+                <p className="text-slate-600">
+                  See how much you actually studied vs how much time you thought you studied.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tech Stack - For fellow devs */}
+      <section className="py-16 px-4 bg-slate-100">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">
+            Built with
+          </h2>
+          <div className="flex flex-wrap justify-center gap-3 text-sm">
+            <span className="px-4 py-2 bg-white rounded-lg text-slate-700 border border-slate-200">Next.js 15</span>
+            <span className="px-4 py-2 bg-white rounded-lg text-slate-700 border border-slate-200">TypeScript</span>
+            <span className="px-4 py-2 bg-white rounded-lg text-slate-700 border border-slate-200">Tailwind CSS</span>
+            <span className="px-4 py-2 bg-white rounded-lg text-slate-700 border border-slate-200">Prisma</span>
+            <span className="px-4 py-2 bg-white rounded-lg text-slate-700 border border-slate-200">SQLite</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Simple CTA */}
+      <section className="py-16 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-4">
+            Give it a try
+          </h2>
+          <p className="text-lg text-slate-600 mb-8">
+            It's completely free. No accounts, no tracking, just a simple tool to help you study better.
+          </p>
+          <Link
+            href="/dashboard"
+            className="inline-block px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold text-lg hover:bg-blue-700 transition-colors"
+          >
+            Start Tracking →
+          </Link>
+        </div>
+      </section>
+
+      {/* Simple Footer */}
+      <footer className="border-t border-slate-200 py-8 px-4 bg-white">
+        <div className="max-w-6xl mx-auto text-center text-slate-600">
+          <p className="mb-2">Made with ☕ as a learning project</p>
+          <p className="text-sm text-slate-500">
+            StudyTracker • 2026 • Open source on GitHub
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
